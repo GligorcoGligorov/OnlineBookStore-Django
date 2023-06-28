@@ -10,13 +10,7 @@
                         <h1 class="card-title text-center">Registration</h1>
                         <form action="{% url 'register' %}" method="POST" class="needs-validation">
                             {% csrf_token %}
-                            <div class="mb-3">
-                                <label for="user_type" class="form-label text-dark" style="font-weight:bold">Select User Type:</label>
-                                <select name="user_type" id="user_type" class="form-select">
-                                    <option value="customer">Customer</option>
-                                    <option value="seller">Seller</option>
-                                </select>
-                            </div>
+                            
                             <button type="submit" class="btn btn-warning w-100">Register</button>
                         </form>
                     </div>

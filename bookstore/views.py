@@ -14,17 +14,44 @@ from .decorators import unauthenticated_user
 from django.contrib.auth.decorators import login_required
 from .forms import BookForm
 from django.db.models import Sum
+from django.contrib.auth import get_user_model
+from .forms import CustomUserCreationForm
 
 
 
+
+
+# @unauthenticated_user
+# def register(request):
+#     if request.method == 'POST':
+#         form = UserCreationForm(request.POST)
+#         if form.is_valid():
+#             user = form.save(commit=False)
+#             user_type = request.POST.get('user_type')
+#             if user_type == 'customer':
+#                 user.is_superuser = False
+#                 user.is_staff = False
+#             elif user_type == 'seller':
+#                 user.is_superuser = True
+#                 user.is_staff = True
+#             user.save()
+#
+#
+#             auth_login(request, user)
+#             return redirect('index')
+#     else:
+#         form = UserCreationForm()
+#     return render(request, 'register.html', {'form': form})
+
+User = get_user_model()
 
 @unauthenticated_user
 def register(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
-            user_type = request.POST.get('user_type')
+            user_type = form.cleaned_data.get('user_type')
             if user_type == 'customer':
                 user.is_superuser = False
                 user.is_staff = False
@@ -32,10 +59,11 @@ def register(request):
                 user.is_superuser = True
                 user.is_staff = True
             user.save()
+
             auth_login(request, user)
             return redirect('index')
     else:
-        form = UserCreationForm()
+        form = CustomUserCreationForm()
     return render(request, 'register.html', {'form': form})
 
 
@@ -59,7 +87,7 @@ def login_view(request):
 def registerAndLogin(request):
     return render(request,'registerAndLogin.html')
 
-
+@login_required(login_url='login_view')
 def logout_view(request):
     if request.method == 'POST':
         logout(request)
