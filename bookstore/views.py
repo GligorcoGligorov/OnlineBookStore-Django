@@ -13,6 +13,7 @@ from django.contrib.auth.decorators import login_required
 from .decorators import unauthenticated_user
 from django.contrib.auth.decorators import login_required
 from .forms import BookForm
+from django.db.models import Sum
 
 
 
@@ -107,7 +108,8 @@ def showBook(request, id):
     book = get_object_or_404(Book, id=id)
     cart = get_user_cart(request.user)
     numBooks = cart.books.count() if cart else 0
-    context = {"book": book, 'numBooks':numBooks}
+
+    context = {"book": book, 'numBooks': numBooks}
     return render(request, 'showBook.html', context=context)
 
 
@@ -167,7 +169,8 @@ def addBook(request):
         if form.is_valid():
             book = form.save(commit=False)
             book.save()
-            return redirect('index')
+            return render(request, 'successAddBook.html')
+
     else:
         form = BookForm()
 
@@ -178,6 +181,8 @@ def addBook(request):
 @login_required(login_url='login_view')
 def editBook(request, id):
     book = get_object_or_404(Book, id=id)
+    authors = Author.objects.all()
+
     if request.method == 'POST':
         form = BookForm(request.POST, instance=book)
         if form.is_valid():
@@ -186,9 +191,8 @@ def editBook(request, id):
     else:
         form = BookForm(instance=book)
 
-    context = {'form': form, 'book':book}
+    context = {'form': form, 'book': book, 'authors': authors}
     return render(request, 'editBook.html', context=context)
-
 
 @login_required(login_url='login_view')
 def deleteBook(request, id):

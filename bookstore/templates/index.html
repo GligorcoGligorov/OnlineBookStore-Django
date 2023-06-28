@@ -107,6 +107,16 @@
 
     {% if  request.user.is_superuser %}
         <h1 class="text-warning text-center mb-5" style="font-weight:bold">Add Book</h1>
+    <div class="d-flex flex-row justify-content-between align-items-center container">
+        <div>
+            <h1 class="">Your Books:</h1>
+        </div>
+        <div>
+            <h1 class="" style=""><a href="{% url 'addBook' %}" class="btn btn-warning p-2 text-right">Add Book</a></h1>
+        </div>
+
+    </div>
+
 
     <div class="container row m-auto p-4" style="background-color: rgba(251, 192, 147,0.7)">
 
@@ -116,8 +126,10 @@
 
             <div class="card mb-3 p-3 mx-3" style="max-width: 540px;background-color: rgba(251, 192, 147,0.7);">
               <div class="row g-0">
-                <div class="col-md-4" style="border: 2px solid black">
-                  <img src="https://images.booksense.com/images/607/473/9798679473607.jpg" class="img-fluid rounded-start" alt="...">
+                <div class="col-md-4" style="border: 2px solid black;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+<!--                  <img src="https://images.booksense.com/images/607/473/9798679473607.jpg" class="img-fluid rounded-start" alt="...">-->
+                  <img width="170px" height="270px" src="{{ MEDIA_URL }}{{ book.photo.url }}" class=" rounded" style="width:100%; object-fit: cover;" alt="...">
+
                 </div>
                 <div class="col-md-8">
                   <div class="card-body">
@@ -127,9 +139,9 @@
                     <span class="text-center"><h5 style="color: rgba(251, 210, 151);font-weight:bold;" class="card-title">Genre:</h5><h5 style="font-weight:bold" class="card-title">{{ book.genre }}</h5></span>
 
                       <div class="text-center d-flex justify-content-center">
-                          <a href="{% url 'showBook' book.id %}" class="btn btn-warning">View More</a>
-                          <a href="{% url 'editBook' id=book.id %}" class="btn btn-primary">Edit</a>
-                          <a href="{% url 'deleteBook' book.id %}" class="btn btn-danger">Delete</a>
+                          <a href="{% url 'showBook' book.id %}" class="btn btn-warning m-1">View More</a>
+                          <a href="{% url 'editBook' id=book.id %}" class="btn btn-primary m-1">Edit</a>
+                          <a href="{% url 'deleteBook' book.id %}" class="btn btn-danger m-1">Delete</a>
                       </div>
 
 
