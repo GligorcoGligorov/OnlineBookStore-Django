@@ -18,7 +18,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
-from bookstore.views import index,showBook,addToCart,cartBooks,successBuy, registerAndLogin, register, login_view, logout_view, addBook
+from bookstore.views import index,showBook,addToCart,cartBooks,successBuy, registerAndLogin, register, login_view, logout_view, addBook, deleteBook, editBook
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('index/', index, name='index'),
@@ -32,5 +32,7 @@ urlpatterns = [
     path('login_view/', login_view, name='login_view'),
     path('logout/', logout_view, name='logout'),
     path('addBook/', addBook, name='addBook'),
+    path('editBook/<int:id>/', editBook, name='editBook'),
+    path('deleteBook/<int:id>/', deleteBook, name='deleteBook'),
 
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

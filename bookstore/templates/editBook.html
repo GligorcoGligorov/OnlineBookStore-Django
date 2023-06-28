@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Edit Book</h2>
+  <form method="post" action="{% url 'editBook' book.id %}">
+    {% csrf_token %}
+    <label for="title">Title:</label>
+    <input type="text" id="title" name="title" value="{{ book.title }}"><br>
+    <label for="author">Author:</label>
+    <input type="text" id="author" name="author" value="{{ book.author }}"><br>
+    <label for="price">Price:</label>
+    <input type="text" id="price" name="price" value="{{ book.price }}"><br>
+    <input type="submit" value="Save">
+  </form>
+{% endblock %}

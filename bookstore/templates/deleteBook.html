@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container text-center" style="margin-top: 10%">
+    <h1>Delete Book</h1>
+    <p>Are you sure you want to delete the book "{{ book.title }}"?</p>
+    <form method="POST" action="{% url 'deleteBook' book.id %}">
+      {% csrf_token %}
+      <input type="submit" value="Delete" class="btn btn-danger">
+      <a href="{% url 'index' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+  </div>
+{% endblock %}
