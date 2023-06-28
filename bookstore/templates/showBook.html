@@ -24,6 +24,9 @@
         </button>
         <div class="collapse navbar-collapse d-flex flex-row-reverse" id="navbarNavDropdown">
           <ul class="navbar-nav">
+              <li class="nav-item">
+              <a class="nav-link active" aria-current="page" style="text-decoration: underline;" href="#">Hi, <span style="" class="text-capitalize font-weight-bold">{{ userName }}</span></a>
+            </li>
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="#">Home</a>
             </li>
@@ -115,6 +118,9 @@
               </div>
             </div>
         </div>
+
+        <a class="btn btn-primary" style="bottom:2%; position: absolute;width:100px" href="{% url 'index' %}">Back</a>
+
 
     </div>
 

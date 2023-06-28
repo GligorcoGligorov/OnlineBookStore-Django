@@ -24,6 +24,9 @@
         </button>
         <div class="collapse navbar-collapse d-flex flex-row-reverse" id="navbarNavDropdown">
           <ul class="navbar-nav">
+              <li class="nav-item">
+              <a class="nav-link active" aria-current="page" style="text-decoration: underline;" href="#">Hi, <span style="" class="text-capitalize font-weight-bold">{{ userName }}</span></a>
+            </li>
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="#">Home</a>
             </li>
@@ -81,7 +84,8 @@
             <div class="card mb-3 p-3 mx-3" style="max-width: 540px;background-color: rgba(251, 192, 147,0.7);">
               <div class="row g-0">
                 <div class="col-md-4" style="border: 2px solid black">
-                  <img src="https://images.booksense.com/images/607/473/9798679473607.jpg" class="img-fluid rounded-start" alt="...">
+                    <img width="170px" height="270px" src="{{ MEDIA_URL }}{{ book.photo.url }}" class=" rounded" style="width:100%; object-fit: cover;" alt="...">
+
                 </div>
                 <div class="col-md-8">
                   <div class="card-body">
@@ -127,7 +131,6 @@
             <div class="card mb-3 p-3 mx-3" style="max-width: 540px;background-color: rgba(251, 192, 147,0.7);">
               <div class="row g-0">
                 <div class="col-md-4" style="border: 2px solid black;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
-<!--                  <img src="https://images.booksense.com/images/607/473/9798679473607.jpg" class="img-fluid rounded-start" alt="...">-->
                   <img width="170px" height="270px" src="{{ MEDIA_URL }}{{ book.photo.url }}" class=" rounded" style="width:100%; object-fit: cover;" alt="...">
 
                 </div>

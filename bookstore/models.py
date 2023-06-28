@@ -1,5 +1,7 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
 # Create your models here.
 class Author(models.Model):
     name = models.CharField(max_length=100)
@@ -17,6 +19,7 @@ class Book(models.Model):
     description = models.TextField()
     price = models.FloatField()
     photo = models.ImageField(upload_to='book_photos', null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
         return self.title

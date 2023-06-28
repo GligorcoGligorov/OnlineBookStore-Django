@@ -89,10 +89,11 @@ def registerAndLogin(request):
 
 @login_required(login_url='login_view')
 def logout_view(request):
+    context = {'userName': request.user}
     if request.method == 'POST':
         logout(request)
         return redirect('registerAndLogin')
-    return render(request, 'logout.html')
+    return render(request, 'logout.html',context=context)
 
 
 def get_user_cart(user):
@@ -119,16 +120,17 @@ def index(request,bookss=None):
     if search_query:
         books = Book.objects.filter(title__icontains=search_query) | Book.objects.filter(
             author__name__icontains=search_query)
-    elif bookss:
+    elif bookss and not request.user.is_superuser:
         books = bookss
+    elif request.user.is_superuser:
+        books = Book.objects.filter(user=request.user).all()
     else:
         books = Book.objects.all()
 
     cart = get_user_cart(request.user)
     numBooks = cart.books.count() if cart else 0
-    context={"books" : books, 'numBooks': numBooks}
+    context={"books" : books, 'numBooks': numBooks, 'userName': request.user}
     return render(request, 'index.html',context=context)
-
 
 @login_required(login_url='login_view')
 def showBook(request, id):
@@ -137,7 +139,7 @@ def showBook(request, id):
     cart = get_user_cart(request.user)
     numBooks = cart.books.count() if cart else 0
 
-    context = {"book": book, 'numBooks': numBooks}
+    context = {"book": book, 'numBooks': numBooks,'userName': request.user}
     return render(request, 'showBook.html', context=context)
 
 
@@ -167,7 +169,8 @@ def cartBooks(request):
 
     context = {
         'books': books,
-        'total': total
+        'total': total,
+        'userName': request.user
     }
 
     return render(request, 'card.html', context=context)
@@ -175,14 +178,14 @@ def cartBooks(request):
 @login_required(login_url='login_view')
 def successBuy(request):
     cart = get_user_cart(request.user)
-    context = {}
+    context = {'userName': request.user}
     total = 0.0
     if cart:
         if cart.books.exists():
             cart.books.clear()
             cart.save()
         else:
-            context = {'cart_empty':True, 'total':total}
+            context = {'cart_empty':True, 'total':total,'userName': request.user}
             return render(request, 'card.html',context=context)
 
 
@@ -194,15 +197,17 @@ def addBook(request):
     authors = Author.objects.all()
     if request.method == 'POST':
         form = BookForm(request.POST, request.FILES)
+        context = {'userName': request.user}
         if form.is_valid():
             book = form.save(commit=False)
+            book.user = request.user
             book.save()
-            return render(request, 'successAddBook.html')
+            return render(request, 'successAddBook.html',context=context)
 
     else:
         form = BookForm()
 
-    context = {'form': form, 'authors': authors}
+    context = {'form': form, 'authors': authors, 'userName': request.user}
     return render(request, 'addBook.html', context=context)
 
 
@@ -219,7 +224,7 @@ def editBook(request, id):
     else:
         form = BookForm(instance=book)
 
-    context = {'form': form, 'book': book, 'authors': authors}
+    context = {'form': form, 'book': book, 'authors': authors,'userName': request.user}
     return render(request, 'editBook.html', context=context)
 
 @login_required(login_url='login_view')
@@ -229,6 +234,6 @@ def deleteBook(request, id):
         book.delete()
         return redirect('index')
 
-    context = {'book': book}
+    context = {'book': book,'userName': request.user}
     return render(request, 'deleteBook.html', context=context)
 
