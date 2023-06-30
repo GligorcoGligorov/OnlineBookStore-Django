@@ -17,4 +17,4 @@ https://github.com/GligorcoGligorov/OnlineBookStore-Django.git
 3. Run the server:
 ### -py manage.py runserver
 4. Open the link provided in the terminal
-> The default is http://localhost:8000/ The admin user credentials are admin,admin
+> The default is http://localhost:8000/ The admin user credentials are admin,admin. For user customer
